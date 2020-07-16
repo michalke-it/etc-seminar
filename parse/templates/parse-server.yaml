@@ -16,8 +16,10 @@ spec:
       - name: parse-server
         image: parseplatform/parse-server:4.1.0
         ports:
-        - containerPort: 1337
+        - containerPort: 30041
         env: 
+        - name: PORT
+          value: "30041"
         - name: PARSE_SERVER_APPLICATION_ID
           value: "ParseAppID"
         - name: PARSE_SERVER_MASTER_KEY
@@ -29,29 +31,6 @@ spec:
           name: config-vol
         - mountPath: /parse-server/cloud
           name: cloud-code-vol
-      - name: parse-dashboard
-        image: parseplatform/parse-dashboard:2.0.5
-        ports:
-        - containerPort: 30040
-        env: 
-        - name: HOST
-          value: "0.0.0.0"
-        - name: PORT
-          value: "30040"
-        - name: PARSE_DASHBOARD_SERVER_URL
-          value: "http://localhost:1337/test"
-        - name: PARSE_DASHBOARD_APP_NAME
-          value: "Seminar-Test-App"
-        - name: PARSE_DASHBOARD_APP_ID
-          value: "ParseAppID"
-        - name: PARSE_DASHBOARD_MASTER_KEY
-          value: "thisisthemasterkey"
-        - name: PARSE_DASHBOARD_USER_ID
-          value: "user"
-        - name: PARSE_DASHBOARD_USER_PASSWORD
-          value: "password"
-        - name: PARSE_DASHBOARD_ALLOW_INSECURE_HTTP
-          value: "1"
       - name: mongo
         image: mongo:4.2.8
         ports:

@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: parse-db-server
+spec:
+  selector:
+    matchLabels:
+      run: parse-db-server
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: parse-db-server
+    spec:
+      containers:
+      - name: parse-dashboard
+        image: docker.io/bitnami/parse-dashboard:2-debian-10
+        ports:
+        - containerPort: 30040
+        env: 
+        - name: PARSE_HOST
+          value: "parse-service"
+        - name: PARSE_PORT_NUMBER
+          value: "30041"
+        - name: PARSE_MASTER_KEY
+          value: "thisisthemasterkey"
+        - name: PARSE_APP_ID
+          value: "ParseAppID"
+        - name: PORT
+          value: "30040"
+        - name: PARSE_DASHBOARD_APP_NAME
+          value: "Seminar-Test-App"
+        - name:  PARSE_DASHBOARD_USER
+          value: "user"
+        - name: PARSE_DASHBOARD_PASSWORD
+          value: "password"
