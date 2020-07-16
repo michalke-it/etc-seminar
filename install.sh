@@ -37,15 +37,14 @@ while [ $? -ne 0 ]; do sudo microk8s.helm3 upgrade nats --install nats/nats --na
 sudo microk8s.kubectl create namespace parse
 #sudo microk8s.helm3 install parse /vagrant/parse-0.1.0.tgz --namespace parse
 IPADDR=`ip addr sh enp0s8 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
-sudo microk8s.helm3 install parse /vagrant/parse --namespace parse --set parseHost=$IPADDR
+sudo microk8s.helm3 install parse /vagrant/parse-0.1.0.tgz --namespace parse --set parseHost=$IPADDR
 sleep 3
 while [ $? -ne 0 ]; do sudo microk8s.helm3 upgrade parse --install /vagrant/parse-0.1.0.tgz --namespace parse; done
 sleep 3
 sudo microk8s.kubectl -n parse rollout status -w deployments/parse-server
 
 sudo microk8s.kubectl get pods --all-namespaces
-echo "ip address is:"
-sudo ip addr sh | grep "192.168.31"
+echo "ip address is: $IPADDR"
 echo "port is 30040"
 echo "username: user"
 echo "password: password"
