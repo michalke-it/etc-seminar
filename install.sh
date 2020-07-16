@@ -1,7 +1,10 @@
 # Install prerequisites
 apt-get update
 DEBIAN_FRONTEND=noninteractive apt-get --yes upgrade
+sudo systemctl restart snapd
+sleep 30
 sudo snap install microk8s --classic
+while [ $? -ne 0 ]; do sudo snap install microk8s --classic; done
 sudo snap install docker
 sudo microk8s.enable helm3
 sudo microk8s.enable dns
@@ -28,18 +31,20 @@ sleep 3
 sudo microk8s.helm3 install nats nats/nats --namespace nats --wait --timeout=150s
 while [ $? -ne 0 ]; do sudo microk8s.helm3 upgrade nats --install nats/nats --namespace nats --wait --timeout=150s; done
 
+
+
 # Install Parse
-git clone https://github.com/parse-community/parse-server
-cd parse-server
-sudo docker build --tag parse-server:local .
-sudo docker save parse-server:local > parse-server.tar
-sudo microk8s ctr image import parse-server.tar
 sudo microk8s.kubectl create namespace parse
-sudo microk8s.helm3 install parse /vagrant/parse-0.1.0.tgz --namespace parse
+#sudo microk8s.helm3 install parse /vagrant/parse-0.1.0.tgz --namespace parse
+sudo microk8s.helm3 install parse /vagrant/parse --namespace parse
 sleep 3
 while [ $? -ne 0 ]; do sudo microk8s.helm3 upgrade parse --install /vagrant/parse-0.1.0.tgz --namespace parse; done
 sleep 3
-sudo microk8s.kubectl -n parse rollout status -w deployment/parse-deployment
-sudo microk8s.kubectl -n parse rollout status -w deployment/mongodb
+sudo microk8s.kubectl -n parse rollout status -w deployments/parse-server
 
 sudo microk8s.kubectl get pods --all-namespaces
+echo "ip address is:"
+sudo ip addr sh | grep "192.168.31"
+echo "port is 30040"
+echo "username: user"
+echo "password: password"

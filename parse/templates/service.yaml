@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: parse-service
+  labels:
+    run: parse-server
+spec:
+  ports:
+  - port: 30040
+    nodePort: 30040
+    protocol: TCP
+  selector:
+    run: parse-server
+  type: NodePort
