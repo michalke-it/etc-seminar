@@ -19,7 +19,7 @@ spec:
         - containerPort: 30040
         env: 
         - name: PARSE_HOST
-          value: "parse-service"
+          value: {{ .Values.parseHost }}
         - name: PARSE_PORT_NUMBER
           value: "30041"
         - name: PARSE_MASTER_KEY

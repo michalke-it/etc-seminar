@@ -7,6 +7,7 @@ metadata:
 spec:
   ports:
   - port: 30041
+    nodePort: 30041
     protocol: TCP
   selector:
     run: parse-server

@@ -2,6 +2,8 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+parseHost: demo
+
 replicaCount: 1
 
 imagePullSecrets: []
@@ -29,6 +31,8 @@ securityContext: {}
 service:
   type: nodePort
   port: 30040
+  type: nodePort
+  port: 30041
 
 ingress:
   enabled: false
