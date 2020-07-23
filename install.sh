@@ -8,6 +8,7 @@ while [ $? -ne 0 ]; do sudo snap install microk8s --classic; done
 sudo snap install docker
 sudo microk8s.enable helm3
 sudo microk8s.enable dns
+sudo microk8s.enable metrics-server
 sudo usermod -a -G microk8s vagrant
 sudo chown -f -R vagrant ~/.kube
 
@@ -43,6 +44,7 @@ sleep 3
 sudo microk8s.kubectl -n parse rollout status -w deployments/parse-server
 
 sudo microk8s.kubectl get pods --all-namespaces
+sudo microk8s.kubectl top nodes
 echo "ip address is: $IPADDR"
 echo "port is 30040"
 echo "username: user"
