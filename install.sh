@@ -35,7 +35,6 @@ while [ $? -ne 0 ]; do sudo microk8s.helm3 upgrade nats --install nats/nats --na
 
 # Install Parse
 sudo microk8s.kubectl create namespace parse
-#sudo microk8s.helm3 install parse /vagrant/parse-0.1.0.tgz --namespace parse
 IPADDR=`ip addr sh enp0s8 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 sudo microk8s.helm3 install parse /vagrant/parse-0.1.0.tgz --namespace parse --set parseHost=$IPADDR
 sleep 3
